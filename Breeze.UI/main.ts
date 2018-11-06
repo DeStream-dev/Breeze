@@ -77,8 +77,7 @@ app.on('ready', function () {
     console.log("Breeze UI was started in development mode. This requires the user to be running the Breeze Daemon himself.")
   }
   else {
-    startBitcoinApi();
-    startStratisApi();
+    startDeStreamApi();
   }
   createTray();
   createWindow();
@@ -88,8 +87,7 @@ app.on('ready', function () {
 });
 
 app.on('before-quit', function () {
-  closeBitcoinApi(),
-  closeStratisApi();
+  closeDeStreamApi();
 });
 
 // Quit when all windows are closed.
@@ -109,24 +107,7 @@ app.on('activate', function () {
   }
 });
 
-function closeBitcoinApi() {
-  // if (process.platform !== 'darwin' && !serve) {
-    if (!serve) {
-    var http1 = require('http');
-    const options1 = {
-      hostname: 'localhost',
-      port: 37220,
-      path: '/api/node/shutdown',
-      method: 'POST'
-  };
-
-  const req = http1.request(options1, (res) => {});
-  req.write('');
-  req.end();
-  }
-};
-
-function closeStratisApi() {
+function closeDeStreamApi() {
   // if (process.platform !== 'darwin' && !serve) {
     if (process.platform !== 'darwin' && !serve) {
     var http2 = require('http');
@@ -143,42 +124,11 @@ function closeStratisApi() {
   }
 };
 
-function startBitcoinApi() {
-  var bitcoinProcess;
-  const spawnBitcoin = require('child_process').spawn;
+function startDeStreamApi() {
+  var destreamProcess;
+  const spawnDeStream = require('child_process').spawn;
 
-  //Start Breeze Bitcoin Daemon
-  let apiPath = path.resolve(__dirname, 'assets//daemon//Stratis.BreezeD');
-  if (os.platform() === 'win32') {
-    apiPath = path.resolve(__dirname, '..\\..\\resources\\daemon\\Stratis.BreezeD.exe');
-  } else if(os.platform() === 'linux') {
-	  apiPath = path.resolve(__dirname, '..//..//resources//daemon//Stratis.BreezeD');
-  } else {
-	  apiPath = path.resolve(__dirname, '..//..//resources//daemon//Stratis.BreezeD');
-  }
-
-
-  if(!testnet) {
-    bitcoinProcess = spawnBitcoin(apiPath, {
-      detached: true
-    });
-  } else if (testnet) {
-    bitcoinProcess = spawnBitcoin(apiPath, ['-testnet'], {
-      detached: true
-    });
-  }
-
-
-  bitcoinProcess.stdout.on('data', (data) => {
-    writeLog(`Bitcoin: ${data}`);
-  });
-}
-
-function startStratisApi() {
-  var stratisProcess;
-  const spawnStratis = require('child_process').spawn;
-
-  //Start Breeze Stratis Daemon
+  //Start Breeze DeStream Daemon
   let apiPath = path.resolve(__dirname, 'assets//daemon//Stratis.BreezeD');
   if (os.platform() === 'win32') {
     apiPath = path.resolve(__dirname, '..\\..\\resources\\daemon\\Stratis.BreezeD.exe');
@@ -189,17 +139,17 @@ function startStratisApi() {
   }
 
   if (!testnet) {
-    stratisProcess = spawnStratis(apiPath, ['stratis'], {
+    destreamProcess = spawnDeStream(apiPath, ['destream'], {
       detached: true
     });
   } else if (testnet) {
-    stratisProcess = spawnStratis(apiPath, ['stratis', '-testnet'], {
+    destreamProcess = spawnDeStream(apiPath, ['destream', '-testnet'], {
       detached: true
     });
   }
 
-  stratisProcess.stdout.on('data', (data) => {
-    writeLog(`Stratis: ${data}`);
+  destreamProcess.stdout.on('data', (data) => {
+    writeLog(`DeStream: ${data}`);
   });
 }
 

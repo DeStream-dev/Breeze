@@ -20,47 +20,15 @@ export class SidebarComponent implements OnInit {
   constructor(private globalService: GlobalService, private apiService: ApiService, 
                 private router: Router, private modalService: NgbModal, private genericModalService: ModalService, 
                     private navigationService: NavigationService) { }
-  public bitcoinActive: boolean;
-  public stratisActive: boolean;
 
   ngOnInit() {
-    if (this.globalService.getCoinName() === "Bitcoin" || this.globalService.getCoinName() === "TestBitcoin") {
-      this.bitcoinActive = true;
-      this.stratisActive = false;
-    } else if (this.globalService.getCoinName() === "Stratis" || this.globalService.getCoinName() === "TestStratis") {
-      this.bitcoinActive = false;
-      this.stratisActive = true;
-    }
   }
 
-  public loadBitcoinWallet() {
-    let currentNetwork = this.globalService.getNetwork();
-    if (currentNetwork === "Main") {
-      this.globalService.setCoinName("Bitcoin");
-      this.globalService.setCoinUnit("BTC");
-    } else if (currentNetwork === "TestNet"){
-      this.globalService.setCoinName("TestBitcoin");
-      this.globalService.setCoinUnit("TBTC");
-    }
+  public loadDestreamWallet() {
+      this.globalService.setCoinName("DeStreamCoin");
+      this.globalService.setCoinUnit("DST");
 
-    this.bitcoinActive = true;
-    this.stratisActive = false;
-    this.router.navigate(['/wallet']);
-  }
-
-  public loadStratisWallet() {
-    let currentNetwork = this.globalService.getNetwork();
-    if (currentNetwork === "Main") {
-      this.globalService.setCoinName("Stratis");
-      this.globalService.setCoinUnit("STRAT");
-    } else if (currentNetwork === "TestNet"){
-      this.globalService.setCoinName("TestStratis");
-      this.globalService.setCoinUnit("TSTRAT");
-    }
-
-    this.bitcoinActive = false;
-    this.stratisActive = true;
-    this.router.navigate(['/wallet/stratis-wallet']);
+    this.router.navigate(['/wallet/destream-wallet']);
   }
 
   public logOut() {

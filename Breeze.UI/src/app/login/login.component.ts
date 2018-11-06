@@ -127,33 +127,8 @@ export class LoginComponent implements OnInit {
   }
 
   private loadWallets(walletLoad: WalletLoad) {
-    this.apiService.loadBitcoinWallet(walletLoad)
-      .subscribe(
-        response => {
-          if (response.status >= 200 && response.status < 400) {
-            this.globalService.setWalletName(walletLoad.name);
-          }
-        },
-        error => {
-          this.isDecrypting = false;
-          if (error.status === 0) {
-            this.genericModalService.openModal(null, null);
-          } else if (error.status >= 400) {
-            if (!error.json().errors[0]) {
-              console.log(error);
-            }
-            else {
-              this.genericModalService.openModal(null, error.json().errors[0].message);
-            }
-          }
-        },
-        () => this.loadStratisWallet(walletLoad)
-      )
-    ;
-  }
 
-  private loadStratisWallet(walletLoad: WalletLoad) {
-    this.apiService.loadStratisWallet(walletLoad)
+    this.apiService.loadDeStreamWallet(walletLoad)
       .subscribe(
         response => {
           if (response.status >= 200 && response.status < 400) {
@@ -180,19 +155,14 @@ export class LoginComponent implements OnInit {
 
   private getCurrentNetwork() {
     let walletInfo = new WalletInfo(this.globalService.getWalletName())
-    this.apiService.getGeneralInfoOnce(walletInfo)
+    this.apiService.getGeneralInfo(walletInfo)
       .subscribe(
         response => {
           if (response.status >= 200 && response.status < 400) {
             let responseMessage = response.json();
             this.globalService.setNetwork(responseMessage.network);
-            if (responseMessage.network === "Main") {
-              this.globalService.setCoinName("Bitcoin");
-              this.globalService.setCoinUnit("BTC");
-            } else if (responseMessage.network === "TestNet") {
-              this.globalService.setCoinName("TestBitcoin");
-              this.globalService.setCoinUnit("TBTC");
-            }
+            this.globalService.setCoinName("DeStreamCoin");
+            this.globalService.setCoinUnit("DST");
           }
         },
         error => {

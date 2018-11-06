@@ -81,6 +81,7 @@ export class HistoryComponent {
   private getTransactionInfo(transactions: any) {
     this.transactions = [];
 
+    console.log("hit it");
     for (let transaction of transactions) {
       let transactionType;
       if (transaction.type === "send") {
@@ -100,6 +101,12 @@ export class HistoryComponent {
       let transactionTimestamp = transaction.timestamp;
       let transactionConfirmed;
 
+      console.log("transactionType: " + transactionType);
+        console.log("transactionId: " + transactionId);
+        console.log("transactionAmount: " + transactionAmount);
+        console.log("transactionFee: " + transactionFee);
+        console.log("transactionConfirmedInBlock: " + transactionConfirmedInBlock);
+        console.log("transactionTimestamp: " + transactionTimestamp);
       this.transactions.push(new TransactionInfo(transactionType, transactionId, transactionAmount, transactionFee, transactionConfirmedInBlock, transactionTimestamp));
     }
   }

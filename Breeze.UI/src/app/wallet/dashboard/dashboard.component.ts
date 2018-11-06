@@ -58,10 +58,15 @@ export class DashboardComponent implements OnInit {
     this.walletBalanceSubscription = this.apiService.getWalletBalance(walletInfo)
       .subscribe(
         response =>  {
+          console.log("HJERE");
           if (response.status >= 200 && response.status < 400) {
+              console.log("HJERE2");
               let balanceResponse = response.json();
+              console.log(balanceResponse);
               this.confirmedBalance = balanceResponse.balances[0].amountConfirmed;
+              console.log(balanceResponse.balances[0].amountConfirmed);
               this.unconfirmedBalance = balanceResponse.balances[0].amountUnconfirmed;
+              console.log(balanceResponse.balances[0].amountUnconfirmed);
           }
         },
         error => {

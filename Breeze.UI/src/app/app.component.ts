@@ -23,11 +23,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.setTitle();
-    this.apiService.getWalletFiles().retryWhen(errors => errors.delay(2000)).subscribe(() => this.checkStratisDaemon());
+    this.apiService.getWalletFiles().retryWhen(errors => errors.delay(2000)).subscribe(() => this.checkDeStreamDaemon());
   }
 
-  private checkStratisDaemon() {
-    this.apiService.getStratisWalletFiles().retryWhen(errors => errors.delay(2000)).subscribe(() => this.startApp());
+  private checkDeStreamDaemon() {
+    this.apiService.getWalletFiles().retryWhen(errors => errors.delay(2000)).subscribe(() => this.startApp());
   }
 
   private startApp() {
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
   }
 
   private setTitle() {
-    const applicationName = "Stratis Breeze Wallet";
+    const applicationName = "DeStream Breeze Wallet";
     const newTitle = applicationName + " v" + remote.app.getVersion();
     this.titleService.setTitle(newTitle);
   }

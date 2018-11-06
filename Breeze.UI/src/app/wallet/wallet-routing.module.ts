@@ -15,7 +15,7 @@ const routes: Routes = [
       { path: 'advanced', component: AdvancedComponent }
     ]
   },
-  { path: 'stratis-wallet', component: WalletComponent,
+  { path: 'destream-wallet', component: WalletComponent,
   children: [
     { path: '', redirectTo:'dashboard', pathMatch:'full' },
     { path: 'dashboard', component: DashboardComponent },

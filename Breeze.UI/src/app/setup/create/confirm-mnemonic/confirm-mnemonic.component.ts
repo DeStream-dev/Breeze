@@ -141,36 +141,7 @@ export class ConfirmMnemonicComponent implements OnInit {
 
   private createWallets(wallet: WalletCreation) {
     this.apiService
-      .createBitcoinWallet(wallet)
-      .subscribe(
-        response => {
-          if (response.status >= 200 && response.status < 400){
-            // Bitcoin wallet created
-          }
-        },
-        error => {
-          console.log(error);
-          this.isCreating = false;
-          if (error.status === 0) {
-            this.genericModalService.openModal(null, null);
-          } else if (error.status >= 400) {
-            if (!error.json().errors[0]) {
-              console.log(error);
-            }
-            else {
-              this.genericModalService.openModal(null, error.json().errors[0].message);
-              this.router.navigate(['/setup/create']);
-            }
-          }
-        },
-        () => this.createStratisWallet(wallet)
-      )
-    ;
-  }
-
-  private createStratisWallet(wallet: WalletCreation) {
-    this.apiService
-      .createStratisWallet(wallet)
+      .createDeStreamWallet(wallet)
       .subscribe(
         response => {
           if (response.status >= 200 && response.status < 400){
