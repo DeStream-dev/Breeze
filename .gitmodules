@@ -1,0 +1,3 @@
+[submodule "DeStreamFullNode"]
+	path = DeStreamFullNode
+	url = https://github.com/DeStream-dev/destream-blockchain.git
