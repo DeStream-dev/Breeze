@@ -113,7 +113,7 @@ function closeDeStreamApi() {
     var http2 = require('http');
     const options2 = {
       hostname: 'localhost',
-      port: 37221,
+      port: 56864,
       path: '/api/node/shutdown',
       method: 'POST'
     };
@@ -129,22 +129,22 @@ function startDeStreamApi() {
   const spawnDeStream = require('child_process').spawn;
 
   //Start Breeze DeStream Daemon
-  let apiPath = path.resolve(__dirname, 'assets//daemon//Stratis.BreezeD');
+  let apiPath = path.resolve(__dirname, 'assets//daemon//DeStream.DeStreamD');
   if (os.platform() === 'win32') {
-    apiPath = path.resolve(__dirname, '..\\..\\resources\\daemon\\Stratis.BreezeD.exe');
+    apiPath = path.resolve(__dirname, '..\\..\\resources\\daemon\\DeStream.DeStreamD.exe');
   } else if(os.platform() === 'linux') {
-	  apiPath = path.resolve(__dirname, '..//..//resources//daemon//Stratis.BreezeD');
+	  apiPath = path.resolve(__dirname, '..//..//resources//daemon//DeStream.DeStreamD');
   } else {
-	  apiPath = path.resolve(__dirname, '..//..//resources//daemon//Stratis.BreezeD');
+	  apiPath = path.resolve(__dirname, '..//..//resources//daemon//DeStream.DeStreamD');
   }
 
   if (!testnet) {
     destreamProcess = spawnDeStream(apiPath, ['destream'], {
-      detached: true
+      detached: false
     });
   } else if (testnet) {
     destreamProcess = spawnDeStream(apiPath, ['destream', '-testnet'], {
-      detached: true
+      detached: false
     });
   }
 
