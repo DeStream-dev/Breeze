@@ -19,5 +19,5 @@ export class NavigationService {
         navigation$.filter(x => x === `${this.navBase}/destream-wallet`).subscribe(_ => this.pageSubject.next(Page.DeStream));
     }
     
-    public pageSubject = new ReplaySubject(1);
+    public pageSubject = new ReplaySubject(0);
 }

@@ -24,7 +24,7 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
   }
 
-  public loadDestreamWallet() {
+  public loadDeStreamWallet() {
       this.globalService.setCoinName("DeStreamCoin");
       this.globalService.setCoinUnit("DST");
 

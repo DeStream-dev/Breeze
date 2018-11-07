@@ -49,8 +49,8 @@ export class HistoryComponent {
         response => {
           if (response.status >= 200 && response.status < 400) {
             const json = response.json();
-            if (json && json.transactionsHistory) {
-              historyResponse = json.transactionsHistory;
+            if (json && json.history.length) {
+              historyResponse = json.history[0].transactionsHistory;
               this.getTransactionInfo(historyResponse);
             }
           }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, RequestOptions, URLSearchParams} from '@angular/http';
+import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
@@ -23,217 +23,227 @@ import { TransactionSending } from '../classes/transaction-sending';
  */
 @Injectable()
 export class ApiService {
-    constructor(private http: Http, private globalService: GlobalService) {};
+  constructor(private http: Http, private globalService: GlobalService) { };
 
-    private headers = new Headers({'Content-Type': 'application/json'});
-    private pollingInterval = 3000;
-    private destreamApiUrl = 'http://localhost:56864/api';
-    private currentApiUrl = 'http://localhost:56864/api';
+  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private pollingInterval = 3000;
+  private destreamApiUrl = 'http://localhost:56864/api';
+  private currentApiUrl = 'http://localhost:56864/api';
+  private readonly accountName = 'account 0';
 
-    /**
-     * Gets available wallets at the default path
-     */
-     getWalletFiles(): Observable<any> {
-      return this.http
-        .get(this.destreamApiUrl + '/wallet/files')
-        .map((response: Response) => response);
-     }
 
-     /**
-      * Get a new mnemonic
-      */
-    getNewMnemonic(): Observable<any> {
-      let params: URLSearchParams = new URLSearchParams();
-      params.set('language', 'English');
-      params.set('wordCount', '12');
+  /**
+   * Gets available wallets at the default path
+   */
+  getWalletFiles(): Observable<any> {
+    return this.http
+      .get(this.destreamApiUrl + '/wallet/files')
+      .map((response: Response) => response);
+  }
 
-      return this.http
-        .get(this.destreamApiUrl + '/wallet/mnemonic', new RequestOptions({headers: this.headers, search: params}))
-        .map((response: Response) => response);
-    }
-    /**
-     * Create a new DeStream wallet.
-     */
-    createDeStreamWallet(data: WalletCreation): Observable<any> {
-      return this.http
-        .post(this.destreamApiUrl + '/wallet/create/', JSON.stringify(data), {headers: this.headers})
-        .map((response: Response) => response);
-    }
+  /**
+   * Get a new mnemonic
+   */
+  getNewMnemonic(): Observable<any> {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('language', 'English');
+    params.set('wordCount', '12');
 
-    /**
-     * Recover a DeStream wallet.
-     */
-    recoverDeStreamWallet(data: WalletRecovery): Observable<any> {
-      return this.http
-        .post(this.destreamApiUrl + '/wallet/recover/', JSON.stringify(data), {headers: this.headers})
-        .map((response: Response) => response);
-    }
+    return this.http
+      .get(this.destreamApiUrl + '/wallet/mnemonic', new RequestOptions({ headers: this.headers, search: params }))
+      .map((response: Response) => response);
+  }
+  /**
+   * Create a new DeStream wallet.
+   */
+  createDeStreamWallet(data: WalletCreation): Observable<any> {
+    return this.http
+      .post(this.destreamApiUrl + '/wallet/create/', JSON.stringify(data), { headers: this.headers })
+      .map((response: Response) => response);
+  }
 
-    /**
-     * Load a DeStream wallet
-     */
-    loadDeStreamWallet(data: WalletLoad): Observable<any> {
-      return this.http
-        .post(this.destreamApiUrl + '/wallet/load/', JSON.stringify(data), {headers: this.headers})
-        .map((response: Response) => response);
-    }
+  /**
+   * Recover a DeStream wallet.
+   */
+  recoverDeStreamWallet(data: WalletRecovery): Observable<any> {
+    return this.http
+      .post(this.destreamApiUrl + '/wallet/recover/', JSON.stringify(data), { headers: this.headers })
+      .map((response: Response) => response);
+  }
 
-    /**
-     * Get wallet status info from the API.
-     */
-    getWalletStatus(): Observable<any> {
+  /**
+   * Load a DeStream wallet
+   */
+  loadDeStreamWallet(data: WalletLoad): Observable<any> {
+    return this.http
+      .post(this.destreamApiUrl + '/wallet/load/', JSON.stringify(data), { headers: this.headers })
+      .map((response: Response) => response);
+  }
 
-      return this.http
-        .get(this.currentApiUrl + '/wallet/status')
-        .map((response: Response) => response);
-    }
+  /**
+   * Get wallet status info from the API.
+   */
+  getWalletStatus(): Observable<any> {
 
-    /**
-     * Get general wallet info from the API.
-     */
-    getGeneralInfo(data: WalletInfo): Observable<any> {
+    return this.http
+      .get(this.currentApiUrl + '/wallet/status')
+      .map((response: Response) => response);
+  }
 
-      let params: URLSearchParams = new URLSearchParams();
-      params.set('Name', data.walletName);
+  /**
+   * Get general wallet info from the API.
+   */
+  getGeneralInfo(data: WalletInfo): Observable<any> {
 
-      return Observable
-        .interval(this.pollingInterval)
-        .startWith(0)
-        .switchMap(() => this.http.get(this.currentApiUrl + '/wallet/general-info', new RequestOptions({headers: this.headers, search: params})))
-        .map((response: Response) => response);
-    }
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('Name', data.walletName);
 
-    /**
-     * Get wallet balance info from the API.
-     */
-    getWalletBalance(data: WalletInfo): Observable<any> {
+    return Observable
+      .interval(this.pollingInterval)
+      .startWith(0)
+      .switchMap(() => this.http.get(this.currentApiUrl + '/wallet/general-info', new RequestOptions({ headers: this.headers, search: params })))
+      .map((response: Response) => response);
+  }
 
-      let params: URLSearchParams = new URLSearchParams();
-      params.set('walletName', data.walletName);
+  /**
+   * Get wallet balance info from the API.
+   */
+  getWalletBalance(data: WalletInfo): Observable<any> {
 
-      return Observable
-        .interval(this.pollingInterval)
-        .startWith(0)
-        .switchMap(() => this.http.get(this.currentApiUrl + '/wallet/balance', new RequestOptions({headers: this.headers, search: params})))
-        .map((response: Response) => response);
-    }
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('walletName', data.walletName);
 
-    /**
-     * Get the maximum sendable amount for a given fee from the API
-     */
-    getMaximumBalance(data): Observable<any> {
+    return Observable
+      .interval(this.pollingInterval)
+      .startWith(0)
+      .switchMap(() => this.http.get(this.currentApiUrl + '/wallet/balance', new RequestOptions({ headers: this.headers, search: params })))
+      .map((response: Response) => response);
+  }
 
-      let params: URLSearchParams = new URLSearchParams();
-      params.set('walletName', data.walletName);
-      params.set('accountName', "account 0");
-      params.set('feeType', data.feeType);
-      params.set('allowUnconfirmed', "true");
+  /**
+   * Get the maximum sendable amount for a given fee from the API
+   */
+  getMaximumBalance(data): Observable<any> {
 
-      return this.http
-        .get(this.currentApiUrl + '/wallet/maxbalance', new RequestOptions({headers: this.headers, search: params}))
-        .map((response: Response) => response);
-    }
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('walletName', data.walletName);
+    params.set('accountName', this.accountName);
+    params.set('feeType', data.feeType);
+    params.set('allowUnconfirmed', "true");
 
-    /**
-     * Get a wallets transaction history info from the API.
-     */
-    getWalletHistory(data: WalletInfo): Observable<any> {
+    return this.http
+      .get(this.currentApiUrl + '/wallet/maxbalance', new RequestOptions({ headers: this.headers, search: params }))
+      .map((response: Response) => response);
+  }
 
-      let params: URLSearchParams = new URLSearchParams();
-      params.set('walletName', data.walletName);
+  /**
+   * Get a wallets transaction history info from the API.
+   */
+  getWalletHistory(data: WalletInfo): Observable<any> {
 
-      return Observable
-        .interval(this.pollingInterval)
-        .startWith(0)
-        .switchMap(() => this.http.get(this.currentApiUrl + '/wallet/history', new RequestOptions({headers: this.headers, search: params})))
-        .map((response: Response) => response);
-    }
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('walletName', data.walletName);
 
-    /**
-     * Get an unused receive address for a certain wallet from the API.
-     */
-    getUnusedReceiveAddress(data: WalletInfo): Observable<any> {
+    return Observable
+      .interval(this.pollingInterval)
+      .startWith(0)
+      .switchMap(() => this.http.get(this.currentApiUrl + '/wallet/history', new RequestOptions({ headers: this.headers, search: params })))
+      .map((response: Response) => response);
+  }
 
-      let params: URLSearchParams = new URLSearchParams();
-      params.set('walletName', data.walletName);
-      params.set('accountName', "account 0"); //temporary
-      return this.http
-        .get(this.currentApiUrl + '/wallet/unusedaddress', new RequestOptions({headers: this.headers, search: params}))
-        .map((response: Response) => response);
-    }
+  /**
+   * Get an unused receive address for a certain wallet from the API.
+   */
+  getUnusedReceiveAddress(data: WalletInfo): Observable<any> {
 
-    /**
-     * Get multiple unused receive addresses for a certain wallet from the API.
-     */
-    getUnusedReceiveAddresses(data: WalletInfo, count: string): Observable<any> {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('walletName', data.walletName);
+    params.set('accountName', this.accountName); //temporary
+    return this.http
+      .get(this.currentApiUrl + '/wallet/unusedaddress', new RequestOptions({ headers: this.headers, search: params }))
+      .map((response: Response) => response);
+  }
 
-      let params: URLSearchParams = new URLSearchParams();
-      params.set('walletName', data.walletName);
-      params.set('accountName', "account 0"); //temporary
-      params.set('count', count);
-      return this.http
-        .get(this.currentApiUrl + '/wallet/unusedaddresses', new RequestOptions({headers: this.headers, search: params}))
-        .map((response: Response) => response);
-    }
+  /**
+   * Get multiple unused receive addresses for a certain wallet from the API.
+   */
+  getUnusedReceiveAddresses(data: WalletInfo, count: string): Observable<any> {
 
-    /**
-     * Get get all receive addresses for an account of a wallet from the API.
-     */
-    getAllReceiveAddresses(data: WalletInfo): Observable<any> {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('walletName', data.walletName);
+    params.set('accountName', this.accountName); //temporary
+    params.set('count', count);
+    return this.http
+      .get(this.currentApiUrl + '/wallet/unusedaddresses', new RequestOptions({ headers: this.headers, search: params }))
+      .map((response: Response) => response);
+  }
 
-      let params: URLSearchParams = new URLSearchParams();
-      params.set('walletName', data.walletName);
-      params.set('accountName', "account 0"); //temporary
-      return this.http
-        .get(this.currentApiUrl + '/wallet/addresses', new RequestOptions({headers: this.headers, search: params}))
-        .map((response: Response) => response);
-    }
+  /**
+   * Get get all receive addresses for an account of a wallet from the API.
+   */
+  getAllReceiveAddresses(data: WalletInfo): Observable<any> {
 
-    /**
-     * Estimate the fee of a transaction
-     */
-    estimateFee(data: FeeEstimation): Observable<any> {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('walletName', data.walletName);
+    params.set('accountName', this.accountName); //temporary
+    return this.http
+      .get(this.currentApiUrl + '/wallet/addresses', new RequestOptions({ headers: this.headers, search: params }))
+      .map((response: Response) => response);
+  }
 
-      let params: URLSearchParams = new URLSearchParams();
-      params.set('walletName', data.walletName);
-      params.set('accountName', data.accountName);
-      params.set('destinationAddress', data.destinationAddress);
-      params.set('amount', data.amount);
-      params.set('feeType', data.feeType);
-      params.set('allowUnconfirmed', "true");
+  /**
+   * Estimate the fee of a transaction
+   */
+  estimateFee(data: FeeEstimation): Observable<any> {
 
-      return this.http
-        .get(this.currentApiUrl + '/wallet/estimate-txfee', new RequestOptions({headers: this.headers, search: params}))
-        .map((response: Response) => response);
-    }
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('walletName', data.walletName);
+    params.set('accountName', data.accountName);
+    params.set('destinationAddress', data.destinationAddress);
+    params.set('amount', data.amount);
+    params.set('feeType', data.feeType);
+    params.set('allowUnconfirmed', "true");
 
-    /**
-     * Build a transaction
-     */
-    buildTransaction(data: TransactionBuilding): Observable<any> {
+    return this.http
+      .get(this.currentApiUrl + '/wallet/estimate-txfee', new RequestOptions({ headers: this.headers, search: params }))
+      .map((response: Response) => response);
+  }
 
-      return this.http
-        .post(this.currentApiUrl + '/wallet/build-transaction', JSON.stringify(data), {headers: this.headers})
-        .map((response: Response) => response);
-    }
+  /**
+   * Build a transaction
+   */
+  buildTransaction(data: TransactionBuilding): Observable<any> {
 
-    /**
-     * Send transaction
-     */
-    sendTransaction(data: TransactionSending): Observable<any> {
+    return this.http
+      .post(this.currentApiUrl + '/wallet/build-transaction', JSON.stringify(data), { headers: this.headers })
+      .map((response: Response) => response);
+  }
 
-      return this.http
-        .post(this.currentApiUrl + '/wallet/send-transaction', JSON.stringify(data), {headers: this.headers})
-        .map((response: Response) => response);
-    }
+  /**
+   * Send transaction
+   */
+  sendTransaction(data: TransactionSending): Observable<any> {
 
-    /**
-     * Send shutdown signal to the daemon
-     */
-    shutdownNode(): Observable<any> {
+    return this.http
+      .post(this.currentApiUrl + '/wallet/send-transaction', JSON.stringify(data), { headers: this.headers })
+      .map((response: Response) => response);
+  }
 
-      return this.http
-        .post(this.currentApiUrl + '/node/shutdown', '')
-        .map((response: Response) => response);
-    }
+  getExtPubKey(data: WalletInfo): Observable<any> {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('walletName', data.walletName);
+    params.set('accountName', this.accountName);
+    return this.http.get(this.currentApiUrl + '/wallet/extpubkey', new RequestOptions({ headers: this.headers, search: params }))
+      .map((response: Response) => response);
+  }
+
+  /**
+   * Send shutdown signal to the daemon
+   */
+  shutdownNode(): Observable<any> {
+
+    return this.http
+      .post(this.currentApiUrl + '/node/shutdown', '')
+      .map((response: Response) => response);
+  }
 }
