@@ -1,4 +1,5 @@
 const electron = require('electron');
+import "isomorphic-fetch";
 
 // Module to control application life.
 const app = electron.app;
@@ -86,16 +87,20 @@ app.on('ready', function () {
   }
 });
 
-app.on('before-quit', function () {
-  closeDeStreamApi();
-});
-
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
-    app.quit();
+      fetch('http://localhost:56864/api/node/shutdown', {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+          }
+      })
+          .then(response => app.quit())
+          .catch(error => setTimeout(() => app.quit(), 5000));      
   }
 });
 
@@ -106,23 +111,6 @@ app.on('activate', function () {
     createWindow();
   }
 });
-
-function closeDeStreamApi() {
-  // if (process.platform !== 'darwin' && !serve) {
-    if (process.platform !== 'darwin' && !serve) {
-    var http2 = require('http');
-    const options2 = {
-      hostname: 'localhost',
-      port: 56864,
-      path: '/api/node/shutdown',
-      method: 'POST'
-    };
-
-  const req = http2.request(options2, (res) => {});
-  req.write('');
-  req.end();
-  }
-};
 
 function startDeStreamApi() {
   var destreamProcess;
@@ -147,7 +135,6 @@ function startDeStreamApi() {
       detached: false
     });
   }
-
   destreamProcess.stdout.on('data', (data) => {
     writeLog(`DeStream: ${data}`);
   });
