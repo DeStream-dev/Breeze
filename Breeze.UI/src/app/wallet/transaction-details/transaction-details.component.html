@@ -1,8 +1,12 @@
- <div id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modal_detail" aria-hidden="true">
+<div id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modal_detail" aria-hidden="true">
   <div class="modal-dialog modalBg" role="document">
     <div>
       <div class="modal-header">
-        <div class="bubble"><i class="icon-block"></i></div>
+        <div class="bubble">
+          <i class="modal-header-logo">
+            <img src="../../../assets/images/ico_dst.png" alt="DeStream">
+          </i>
+        </div>
       </div>
       <div class="modal-body">
         <h5 class="modal-title text-uppercase" id="modalDetail">Transaction Details</h5>
@@ -16,8 +20,8 @@
           <li *ngIf="transaction.transactionType == 'sent'" class="list-inline-item col-8 blockText text-danger">-{{ transaction.transactionAmount + transaction.transactionFee | coinNotation }}  {{ coinUnit }}</li>
         </ul>
         <ul class="list-inline row" *ngIf="transaction.transactionType == 'sent'">
-            <li class="list-inline-item col blockLabel">Fee</li>
-            <li *ngIf="transaction.transactionType == 'sent'" class="list-inline-item col-8 blockText text-danger">{{ transaction.transactionFee | coinNotation }}  {{ coinUnit }}</li>
+          <li class="list-inline-item col blockLabel">Fee</li>
+          <li *ngIf="transaction.transactionType == 'sent'" class="list-inline-item col-8 blockText text-danger">{{ transaction.transactionFee | coinNotation }}  {{ coinUnit }}</li>
         </ul>
         <ul class="list-inline row">
           <li class="list-inline-item col blockLabel">Date</li>
@@ -28,8 +32,8 @@
           <li class="list-inline-item col-8 blockText">#{{ transaction.transactionConfirmedInBlock }}</li>
         </ul>
         <ul class="list-inline row">
-            <li class="list-inline-item col blockLabel">Confirmations</li>
-            <li class="list-inline-item col-8 blockText">{{ confirmations }}</li>
+          <li class="list-inline-item col blockLabel">Confirmations</li>
+          <li class="list-inline-item col-8 blockText">{{ confirmations }}</li>
         </ul>
         <ul class="list-inline row">
           <li class="list-inline-item col blockLabel mb-3">Transaction ID</li>
