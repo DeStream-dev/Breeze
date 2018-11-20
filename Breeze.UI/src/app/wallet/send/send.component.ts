@@ -44,7 +44,7 @@ export class SendComponent implements OnInit {
       "address": ["", Validators.compose([Validators.required, Validators.minLength(26)])],
       // "amount": ["", Validators.compose([Validators.required, Validators.pattern(/^[0-9]+(\.[0-9]{0,8})?$/)])],
       "amount": ["", Validators.compose([Validators.required, Validators.pattern(/^([0-9]+)?(\.[0-9]{0,8})?$/)])],
-      "fee": ["medium", Validators.required],
+      "fee": ["Included", Validators.required],
       "password": ["", Validators.required]
     });
 

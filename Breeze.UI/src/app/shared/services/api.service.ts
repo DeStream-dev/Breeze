@@ -205,7 +205,7 @@ export class ApiService {
     params.set('allowUnconfirmed', "true");
 
     return this.http
-      .get(this.currentApiUrl + '/wallet/estimate-txfee', new RequestOptions({ headers: this.headers, search: params }))
+      .get(this.currentApiUrl + '/destreamwallet/estimate-txfee', new RequestOptions({ headers: this.headers, search: params }))
       .map((response: Response) => response);
   }
 
@@ -215,7 +215,7 @@ export class ApiService {
   buildTransaction(data: TransactionBuilding): Observable<any> {
 
     return this.http
-      .post(this.currentApiUrl + '/wallet/build-transaction', JSON.stringify(data), { headers: this.headers })
+      .post(this.currentApiUrl + '/destreamwallet/build-transaction', JSON.stringify(data), { headers: this.headers })
       .map((response: Response) => response);
   }
 
