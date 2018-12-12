@@ -117,13 +117,13 @@ function startDeStreamApi() {
   const spawnDeStream = require('child_process').spawn;
 
   //Start Breeze DeStream Daemon
-  let apiPath = path.resolve(__dirname, 'assets//daemon//DeStream.DeStreamD');
+  let apiPath = path.resolve(__dirname, 'assets//daemon//DeStream.BreezeD');
   if (os.platform() === 'win32') {
-    apiPath = path.resolve(__dirname, '..\\..\\resources\\daemon\\DeStream.DeStreamD.exe');
+    apiPath = path.resolve(__dirname, '..\\..\\resources\\daemon\\DeStream.BreezeD.exe');
   } else if(os.platform() === 'linux') {
-	  apiPath = path.resolve(__dirname, '..//..//resources//daemon//DeStream.DeStreamD');
+	  apiPath = path.resolve(__dirname, '..//..//resources//daemon//DeStream.BreezeD');
   } else {
-	  apiPath = path.resolve(__dirname, '..//..//resources//daemon//DeStream.DeStreamD');
+	  apiPath = path.resolve(__dirname, '..//..//resources//daemon//DeStream.BreezeD');
   }
 
   if (!testnet) {
