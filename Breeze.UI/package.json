@@ -1,7 +1,7 @@
 {
-  "name": "BreezeWallet",
-  "description": "Breeze Wallet: Stratis' dual-currency full block light wallet with a strong focus on privacy.",
-  "version": "1.0.1",
+  "name": "DeStreamBreezeWallet",
+  "description": "DeStream Breeze Wallet' full block light wallet with a strong focus on privacy.",
+  "version": "1.1.0",
   "author": {
     "name": "Stratis Group",
     "email": "info@stratisplatform.com"
@@ -59,9 +59,12 @@
     "electron-context-menu": "0.9.1",
     "enhanced-resolve": "3.4.1",
     "es6-promise": "^4.2.5",
+    "gyp": "^0.5.0",
     "isomorphic-fetch": "^2.2.1",
+    "nan": "^2.11.1",
     "ngx-bootstrap": "2.0.0-beta.11",
     "ngx-clipboard": "9.0.0",
+    "node-gyp": "^3.8.0",
     "rxjs": "5.5.5",
     "zone.js": "0.8.18"
   },
